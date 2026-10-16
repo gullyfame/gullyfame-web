@@ -34,7 +34,14 @@ const DATA_FILE = join(ROOT, "site.data.json");
 
 const data = JSON.parse(readFileSync(DATA_FILE, "utf8"));
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || data.url).replace(/\/+$/, "");
+// Same order as lib/seo.ts: explicit domain, then Vercel's production address.
+const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "";
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || vercelUrl || data.url).replace(
+  /\/+$/,
+  "",
+);
 
 /*
  * Keep the footer's copyright year current without reading the clock while a

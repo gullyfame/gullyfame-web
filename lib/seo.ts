@@ -12,9 +12,19 @@ import siteData from "@/site.data.json";
  *    exact same list when it writes sitemap.xml and rss.xml.
  */
 
-// Set NEXT_PUBLIC_SITE_URL in .env.local for staging / production.
-export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "") ?? siteData.url;
+// The public address used in canonical links, OG images and feeds, in order:
+//   1. NEXT_PUBLIC_SITE_URL, if set (set it once the real domain is live)
+//   2. the project's production address on Vercel (set by Vercel itself)
+//   3. the url in site.data.json
+// Link previews (WhatsApp, X, LinkedIn) load the OG image from this address,
+// so it must be a domain that actually serves the site.
+const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : undefined;
+
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL || vercelUrl || siteData.url
+).replace(/\/+$/, "");
 
 /** Every route in the site, shared with scripts/generate-feeds.mjs. */
 export const sitePages = siteData.pages;

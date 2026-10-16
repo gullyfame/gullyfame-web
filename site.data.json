@@ -1,0 +1,49 @@
+{
+  "url": "https://gullyfameindia.com",
+  "name": "Gully Fame India",
+  "shortName": "GFI",
+  "language": "en-IN",
+  "description": "Join weekly talent battles in music, dance, cooking and comedy on Gully Fame India. Upload your clip, earn points from votes, climb the live leaderboard and win real prizes.",
+  "copyrightHolder": "Gully Fame India",
+  "copyrightYear": 2026,
+  "contactEmail": "gullyfameindia@gmail.com",
+  "pages": [
+    {
+      "path": "/",
+      "title": "Home",
+      "changefreq": "weekly",
+      "priority": 1.0
+    },
+    {
+      "path": "/about",
+      "title": "About Us",
+      "changefreq": "monthly",
+      "priority": 0.8
+    },
+    {
+      "path": "/contact",
+      "title": "Contact Us",
+      "changefreq": "monthly",
+      "priority": 0.8
+    },
+    {
+      "path": "/community-guidelines",
+      "title": "Community Guidelines",
+      "changefreq": "yearly",
+      "priority": 0.5
+    },
+    {
+      "path": "/privacy",
+      "title": "Privacy Policy",
+      "changefreq": "yearly",
+      "priority": 0.4
+    },
+    {
+      "path": "/terms",
+      "title": "Terms of Service",
+      "changefreq": "yearly",
+      "priority": 0.4
+    }
+  ],
+  "updates": []
+}

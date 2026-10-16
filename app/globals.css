@@ -1,26 +1,293 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+  Gully Fame India — brand theme.
+  Warm brown ground throughout: no pure black anywhere on the site.
+*/
+@theme {
+  /* Surfaces, darkest to lightest */
+  --color-deep: #22140a; /* footer */
+  --color-page: #2b1a0c; /* page background */
+  --color-brown: #3c2610; /* brand brown bands */
+  --color-surface: #40301f; /* cards */
+  --color-surface-2: #4a3a2a; /* raised cards, chips */
+  --color-line: #5a4631; /* borders */
+
+  /* Brand */
+  --color-orange: #ec9a15;
+  --color-gold: #ffd700;
+  --color-lilac: #a78bfa;
+  --color-live: #22c55e;
+  --color-coral: #ff6b35;
+
+  /* Text */
+  --color-ink: #2b1a0c; /* dark text on orange / white */
+  --color-soft: #f5eee6; /* body text on dark */
+  --color-muted: #cdbdaa; /* secondary text on dark */
+
+  /* Type */
+  --font-display: var(--font-rubik), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ---------------------------------------------------------------- *
+ * Keyframes — transform/opacity only, so nothing triggers layout.
+ * ---------------------------------------------------------------- */
+@keyframes gf-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes gf-reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes gf-float {
+  0%,
+  100% {
+    transform: var(--gf-rest) translateY(0);
+  }
+  50% {
+    transform: var(--gf-rest) translateY(-10px);
+  }
+}
+
+@keyframes gf-pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.82);
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Keeps anchor targets clear of the sticky header. */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: var(--color-page);
+    color: #ffffff;
+    font-family: var(--font-sans);
+  }
+
+  /* Visible keyboard focus on the brown ground */
+  :focus-visible {
+    outline: 3px solid var(--color-orange);
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  .gf-marquee-track {
+    animation: gf-marquee 32s linear infinite;
+    will-change: transform;
+  }
+
+  /* Native <details> menus and accordions: hide the default marker */
+  .gf-menu > summary,
+  .gf-faq > summary {
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .gf-menu > summary::-webkit-details-marker,
+  .gf-faq > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .gf-faq {
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .gf-faq[open] {
+    border-color: var(--color-orange);
+    box-shadow: 6px 6px 0 var(--color-orange);
+  }
+
+  .gf-faq[open] .gf-faq-plus {
+    transform: rotate(45deg);
+    background-color: var(--color-ink);
+    color: #ffffff;
+  }
+
+  .gf-faq[open] > summary + * {
+    animation: gf-reveal-in 0.28s ease-out both;
+  }
+
+  /* Lift on hover for cards and tiles */
+  .gf-lift {
+    transition:
+      transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1),
+      box-shadow 0.25s ease;
+  }
+
+  .gf-lift:hover {
+    transform: translateY(-6px);
+  }
+
+  /* Floating stickers. --gf-rest keeps the element's resting rotation. */
+  .gf-float {
+    --gf-rest: rotate(0deg);
+    animation: gf-float 5.5s ease-in-out infinite;
+  }
+
+  .gf-float-slow {
+    animation-duration: 7.5s;
+  }
+
+  .gf-float-delay {
+    animation-delay: -2.4s;
+  }
+
+  /* Long-form text on the brown ground: about and legal pages */
+  .gf-prose {
+    max-width: 72ch;
+    color: var(--color-soft);
+    line-height: 1.75;
+  }
+
+  .gf-prose > * + * {
+    margin-top: 1rem;
+  }
+
+  .gf-prose h2 {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1.15;
+    color: #ffffff;
+    margin-top: 2.75rem;
+  }
+
+  .gf-prose h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-top: 1.75rem;
+  }
+
+  .gf-prose ul,
+  .gf-prose ol {
+    padding-left: 1.4rem;
+  }
+
+  .gf-prose ul {
+    list-style: disc;
+  }
+
+  .gf-prose ol {
+    list-style: decimal;
+  }
+
+  .gf-prose li + li {
+    margin-top: 0.5rem;
+  }
+
+  .gf-prose a {
+    color: var(--color-orange);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .gf-prose strong {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .gf-pulse-dot {
+    animation: gf-pulse-dot 1.8s ease-in-out infinite;
+  }
+
+  /*
+   * Navbar: fully transparent over the hero so it reads as part of it, then a
+   * light tint and blur fade in once the page scrolls (html[data-scrolled] is
+   * set by lib/motion.ts).
+   */
+  .gf-header {
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color 0.4s ease,
+      backdrop-filter 0.4s ease,
+      -webkit-backdrop-filter 0.4s ease,
+      border-color 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  html[data-scrolled="true"] .gf-header {
+    background-color: rgb(43 26 12 / 0.55);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+    border-bottom-color: rgb(90 70 49 / 0.35);
+    box-shadow: 0 12px 32px -20px rgb(20 12 5 / 0.9);
+  }
+
+  /* Scroll reveal, driven by lib/motion.ts */
+  .gf-reveal-pending {
+    opacity: 0;
+    transform: translate3d(0, 34px, 0);
+  }
+
+  .gf-reveal-in {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.75s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /*
+   * The marquee keeps running: it is the band's whole point, and a frozen
+   * strip of text reads as a broken page. It is slowed down instead.
+   * To stop it for reduced-motion users too, add .gf-marquee-track to the
+   * rule below.
+   */
+  .gf-marquee-track {
+    animation-duration: 60s;
+  }
+
+  .gf-float,
+  .gf-pulse-dot,
+  .gf-faq[open] > summary + * {
+    animation: none;
+  }
+
+  .gf-reveal-pending {
+    transform: none;
+  }
+
+  .gf-reveal-in {
+    transition: opacity 0.6s ease;
+  }
+
+  .gf-lift {
+    transition: none;
+  }
+
+  .gf-lift:hover {
+    transform: none;
+  }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gully Fame India</title>
+    <link>https://gullyfameindia.com</link>
+    <description>Join weekly talent battles in music, dance, cooking and comedy on Gully Fame India. Upload your clip, earn points from votes, climb the live leaderboard and win real prizes.</description>
+    <language>en-IN</language>
+    <lastBuildDate>Wed, 14 Oct 2026 18:11:32 GMT</lastBuildDate>
+    <copyright>© 2026 Gully Fame India</copyright>
+    <atom:link href="https://gullyfameindia.com/rss.xml" rel="self" type="application/rss+xml" />
+
+  </channel>
+</rss>

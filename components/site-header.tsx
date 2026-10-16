@@ -18,12 +18,12 @@ export function SiteHeader({ active = "/" }: { active?: string }) {
       >
         <Link href="/" aria-label={`${siteConfig.name} home`}>
           <Image
-            src="/images/gfi-logo.png"
+            src="/images/gfi-logo.webp"
             alt={`${siteConfig.shortName} — ${siteConfig.name}`}
             width={260}
             height={113}
             sizes="100px"
-            priority
+            loading="eager"
             className="h-11 w-auto"
           />
         </Link>

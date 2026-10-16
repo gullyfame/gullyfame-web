@@ -4,15 +4,20 @@ import { battles } from "@/lib/content";
 export function Battles() {
   return (
     <section id="battles" className="mx-auto flex max-w-[1240px] flex-col gap-12 px-6 pt-28 pb-20">
-      <div className="gf-reveal flex flex-wrap items-end justify-between gap-6">
-        <h2 className="font-display text-[clamp(2.5rem,5vw,4rem)] leading-none font-black tracking-[-0.03em] uppercase">
+      <div className="flex flex-wrap items-end justify-between gap-6">
+        <h2
+          data-reveal="left"
+          className="gf-reveal font-display text-[clamp(2.5rem,5vw,4rem)] leading-none font-black tracking-[-0.03em] uppercase">
           Battles
           <br />
           <span className="font-serif text-orange tracking-[-0.01em] italic normal-case">
             trending now
           </span>
         </h2>
-        <p className="text-muted basis-[360px] text-[17px] leading-relaxed">
+        <p
+          data-reveal="right"
+          className="gf-reveal text-muted basis-[360px] text-[17px] leading-relaxed"
+        >
           Fresh city battles drop every week. Jump in before entries close.
         </p>
       </div>
@@ -21,6 +26,7 @@ export function Battles() {
         {battles.map((battle, i) => (
           <article
             key={battle.highlight}
+            data-reveal={["left", "up", "right"][i % 3]}
             className={`bg-surface gf-lift gf-reveal flex flex-col overflow-hidden rounded-[28px] border-2 ${
               i === 0
                 ? "border-orange shadow-[8px_8px_0_var(--color-orange)]"

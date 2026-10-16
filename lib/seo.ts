@@ -3,8 +3,13 @@ import siteData from "@/site.data.json";
 
 /**
  * Universal SEO config for Gully Fame India.
- * Every title, description, Open Graph and Twitter detail lives here.
- * Change it in this file and the whole site follows.
+ *
+ * Two places, one source of truth each:
+ *  - this file: site-wide settings (name, Twitter handle, social links,
+ *    robots, icons) and the helpers that turn page data into metadata;
+ *  - site.data.json: every page's title, description, keywords and Open
+ *    Graph image. It is JSON so scripts/generate-feeds.mjs can read the
+ *    exact same list when it writes sitemap.xml and rss.xml.
  */
 
 // Set NEXT_PUBLIC_SITE_URL in .env.local for staging / production.
@@ -13,6 +18,21 @@ export const SITE_URL =
 
 /** Every route in the site, shared with scripts/generate-feeds.mjs. */
 export const sitePages = siteData.pages;
+
+export type SitePage = (typeof sitePages)[number];
+
+/** Look up a page's SEO entry by route; fails loudly if it is missing. */
+export function getPage(path: string): SitePage {
+  const page = sitePages.find((p) => p.path === path);
+  if (!page) {
+    throw new Error(
+      `No entry for "${path}" in site.data.json — add one to its "pages" list.`,
+    );
+  }
+  return page;
+}
+
+const homePage = getPage("/");
 
 export const siteConfig = {
   name: siteData.name,
@@ -24,7 +44,7 @@ export const siteConfig = {
   themeColor: "#EC9A15",
   backgroundColor: "#2B1A0C",
 
-  title: "Gully Fame India — Weekly Talent Battles. Win Prizes. Earn Fame.",
+  title: homePage.seoTitle,
   titleTemplate: "%s | Gully Fame India",
   description: siteData.description,
   shortDescription:
@@ -44,12 +64,13 @@ export const siteConfig = {
     "desi talent platform",
   ],
 
-  // Open Graph / Twitter share card. 1200x630 lives in /public.
+  // Default Open Graph / Twitter share card (1200x630, in /public).
+  // Each page's own card is set in site.data.json.
   ogImage: {
-    url: "/og-image.png",
+    url: homePage.ogImage,
     width: 1200,
     height: 630,
-    alt: "Gully Fame India — weekly talent battles. Win prizes. Earn fame.",
+    alt: homePage.ogAlt,
     type: "image/png",
   },
 
@@ -81,6 +102,18 @@ export const siteConfig = {
   },
 } as const;
 
+/**
+ * RSS discovery link. Next replaces `alternates` wholesale on child routes,
+ * so every page has to declare it again — this keeps it in one place.
+ */
+function rssAlternate() {
+  return {
+    "application/rss+xml": [
+      { url: "/rss.xml", title: `${siteData.name} updates` },
+    ],
+  };
+}
+
 /** Base metadata applied to every route from the root layout. */
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -96,9 +129,7 @@ export const defaultMetadata: Metadata = {
   publisher: siteConfig.name,
   alternates: {
     canonical: "/",
-    types: {
-      "application/rss+xml": [{ url: "/rss.xml", title: `${siteData.name} updates` }],
-    },
+    types: rssAlternate(),
   },
   openGraph: {
     type: "website",
@@ -146,43 +177,54 @@ export const defaultMetadata: Metadata = {
 };
 
 /**
- * Build metadata for any other page, falling back to the site defaults.
- * Example: export const metadata = pageMetadata({ title: "Battles", path: "/battles" })
+ * Metadata for any page, built from its entry in site.data.json.
+ *
+ *   export const metadata = pageMetadata("/about");
+ *
+ * Next merges metadata shallowly, so openGraph, twitter and alternates are
+ * written out in full here rather than relying on the root layout's.
  */
-export function pageMetadata({
-  title,
-  description = siteConfig.description,
-  path = "/",
-  image = siteConfig.ogImage.url,
-  noIndex = false,
-}: {
-  title: string;
-  description?: string;
-  path?: string;
-  image?: string;
-  noIndex?: boolean;
-}): Metadata {
-  const fullTitle = siteConfig.titleTemplate.replace("%s", title);
+export function pageMetadata(
+  path: string,
+  { noIndex = false }: { noIndex?: boolean } = {},
+): Metadata {
+  const page = getPage(path);
+  const fullTitle =
+    path === "/"
+      ? page.seoTitle
+      : siteConfig.titleTemplate.replace("%s", page.seoTitle);
+  const image = {
+    url: page.ogImage,
+    width: 1200,
+    height: 630,
+    alt: page.ogAlt,
+    type: "image/png",
+  };
 
   return {
-    title,
-    description,
-    alternates: { canonical: path },
+    title: path === "/" ? { absolute: page.seoTitle } : page.seoTitle,
+    description: page.description,
+    keywords: [...page.keywords, siteConfig.name],
+    alternates: {
+      canonical: path,
+      types: rssAlternate(),
+    },
     openGraph: {
       type: "website",
       siteName: siteConfig.name,
       locale: siteConfig.locale,
-      url: `${siteConfig.url}${path}`,
+      url: path,
       title: fullTitle,
-      description,
-      images: [{ url: image, width: 1200, height: 630, alt: title }],
+      description: page.description,
+      images: [image],
     },
     twitter: {
       card: siteConfig.twitter.cardType,
       site: siteConfig.twitter.handle,
+      creator: siteConfig.twitter.handle,
       title: fullTitle,
-      description,
-      images: [image],
+      description: page.description,
+      images: [{ url: image.url, alt: image.alt }],
     },
     ...(noIndex ? { robots: { index: false, follow: false } } : {}),
   };

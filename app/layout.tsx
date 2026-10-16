@@ -15,12 +15,15 @@ const rubik = Rubik({
   display: "swap",
 });
 
-// Only the italic cut is used, for the accent words.
+// Only the italic cut is used, for a few accent words. Not preloaded: on a
+// slow phone connection it would compete with the hero image and the
+// headline/body fonts for bandwidth. It swaps in a moment after first paint.
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
   style: ["italic"],
   display: "swap",
+  preload: false,
 });
 
 const inter = Inter({

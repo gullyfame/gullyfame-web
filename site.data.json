@@ -3,7 +3,7 @@
   "name": "Gully Fame India",
   "shortName": "GFI",
   "language": "en-IN",
-  "description": "Join weekly talent battles in music, dance, cooking and comedy on Gully Fame India. Upload your clip, earn points from votes, climb the live leaderboard and win real prizes.",
+  "description": "Weekly talent battles in music, dance, cooking and comedy. Upload your clip, earn points from votes, climb the live leaderboard and win real prizes.",
   "copyrightHolder": "Gully Fame India",
   "copyrightYear": 2026,
   "contactEmail": "gullyfameindia@gmail.com",
@@ -11,36 +11,122 @@
     {
       "path": "/",
       "title": "Home",
+      "seoTitle": "Gully Fame India — Talent Battles. Win Prizes. Earn Fame.",
+      "heading": "Your gully. Your stage.",
+      "accent": "your fame.",
+      "eyebrow": "weekly talent battles",
+      "description": "Weekly talent battles in music, dance, cooking and comedy. Upload your clip, earn points from votes, climb the live leaderboard and win real prizes.",
+      "keywords": [
+        "talent app India",
+        "talent battles",
+        "dance battle app",
+        "singing competition online",
+        "win prizes online India"
+      ],
+      "ogImage": "/og-image.png",
+      "ogAlt": "Gully Fame India — weekly talent battles. Win prizes. Earn fame.",
+      "schemaType": "WebPage",
       "changefreq": "weekly",
       "priority": 1.0
     },
     {
       "path": "/about",
       "title": "About Us",
+      "seoTitle": "About Us — Talent Battles for India",
+      "heading": "We built a stage",
+      "accent": "for every gully.",
+      "eyebrow": "about us",
+      "description": "Gully Fame India is a weekly talent battle platform built for India. Our mission, how battles and voting work, and why talent beats followers.",
+      "keywords": [
+        "about Gully Fame India",
+        "talent battle platform",
+        "Indian talent app",
+        "how talent battles work"
+      ],
+      "ogImage": "/og/about.png",
+      "ogAlt": "About Gully Fame India — we built a stage for every gully.",
+      "schemaType": "AboutPage",
       "changefreq": "monthly",
       "priority": 0.8
     },
     {
       "path": "/contact",
       "title": "Contact Us",
+      "seoTitle": "Contact Us — Support, Partners & Press",
+      "heading": "Talk to the",
+      "accent": "team.",
+      "eyebrow": "contact us",
+      "description": "Contact the Gully Fame India team for app support, content reports, brand partnerships and press, plus our grievance officer and response times.",
+      "keywords": [
+        "Gully Fame India contact",
+        "Gully Fame India support",
+        "report content",
+        "brand partnerships"
+      ],
+      "ogImage": "/og/contact.png",
+      "ogAlt": "Contact Gully Fame India — talk to the team.",
+      "schemaType": "ContactPage",
       "changefreq": "monthly",
       "priority": 0.8
     },
     {
       "path": "/community-guidelines",
       "title": "Community Guidelines",
+      "seoTitle": "Community Guidelines — Fair Play & Safety",
+      "heading": "Compete hard.",
+      "accent": "keep it clean.",
+      "eyebrow": "community guidelines",
+      "description": "What's welcome on Gully Fame India, what we remove, how we keep leaderboards and voting fair, and how to report a clip or appeal a decision.",
+      "keywords": [
+        "community guidelines",
+        "content rules",
+        "fair voting",
+        "report a video",
+        "appeal moderation"
+      ],
+      "ogImage": "/og/community-guidelines.png",
+      "ogAlt": "Gully Fame India Community Guidelines — compete hard, keep it clean.",
+      "schemaType": "WebPage",
       "changefreq": "yearly",
       "priority": 0.5
     },
     {
       "path": "/privacy",
       "title": "Privacy Policy",
+      "seoTitle": "Privacy Policy",
+      "heading": "Your data,",
+      "accent": "in plain words.",
+      "eyebrow": "privacy policy",
+      "description": "How Gully Fame India collects, uses, shares and protects your personal data, how long we keep it, and the rights you have over it.",
+      "keywords": [
+        "Gully Fame India privacy policy",
+        "data protection",
+        "DPDP Act",
+        "your data rights"
+      ],
+      "ogImage": "/og/privacy.png",
+      "ogAlt": "Gully Fame India Privacy Policy — your data, in plain words.",
+      "schemaType": "WebPage",
       "changefreq": "yearly",
       "priority": 0.4
     },
     {
       "path": "/terms",
       "title": "Terms of Service",
+      "seoTitle": "Terms of Service",
+      "heading": "The rules of",
+      "accent": "the game.",
+      "eyebrow": "terms of service",
+      "description": "The terms for using Gully Fame India: your account, the content you upload, how battles, points and prizes work, and the rules everyone plays by.",
+      "keywords": [
+        "Gully Fame India terms",
+        "terms of service",
+        "battle rules",
+        "prize terms"
+      ],
+      "ogImage": "/og/terms.png",
+      "ogAlt": "Gully Fame India Terms of Service — the rules of the game.",
+      "schemaType": "WebPage",
       "changefreq": "yearly",
       "priority": 0.4
     }

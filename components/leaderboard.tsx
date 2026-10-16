@@ -9,7 +9,10 @@ export function Leaderboard() {
       className="bg-brown border-ink border-y-[3px]"
     >
       <div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-16 px-6 py-28">
-        <div className="gf-reveal flex min-w-0 flex-1 basis-[440px] flex-col gap-6.5">
+        <div
+          data-reveal="left"
+          className="gf-reveal flex min-w-0 flex-1 basis-[440px] flex-col gap-6.5"
+        >
           <span className="bg-gold text-ink font-display self-start -rotate-3 rounded-full px-3.5 py-2 text-sm font-extrabold">
             the leaderboard
           </span>
@@ -54,10 +57,13 @@ export function Leaderboard() {
           </ol>
         </div>
 
-        <div className="gf-reveal relative flex min-h-[680px] min-w-0 flex-1 basis-[520px] items-center justify-center">
+        <div
+          data-reveal="right"
+          className="gf-reveal relative flex min-h-[680px] min-w-0 flex-1 basis-[520px] items-center justify-center"
+        >
           <div className="absolute top-10 left-[6%] w-[260px] -rotate-7 rounded-[40px] bg-[#1b1008] p-2.5 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
             <Image
-              src="/images/app-competition.png"
+              src="/images/app-competition.webp"
               alt="Past competition screen showing the Delhi Dance Championship winners podium"
               width={307}
               height={733}
@@ -68,7 +74,7 @@ export function Leaderboard() {
 
           <div className="absolute top-20 right-[6%] w-[260px] rotate-6 rounded-[40px] bg-[#1b1008] p-2.5 shadow-[10px_10px_0_var(--color-orange),0_30px_60px_rgba(0,0,0,0.5)]">
             <Image
-              src="/images/app-leaderboard.png"
+              src="/images/app-leaderboard.webp"
               alt="Full leaderboard screen with the top three podium and ranked entries"
               width={310}
               height={701}

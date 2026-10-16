@@ -6,7 +6,9 @@ const iconTone = ["text-gold", "text-orange", "text-lilac", "text-live"];
 export function Perks() {
   return (
     <section className="mx-auto flex max-w-[1240px] flex-col gap-11 px-6 pt-28 pb-15">
-      <h2 className="gf-reveal font-display text-center text-[clamp(2.5rem,5vw,4rem)] leading-none font-black tracking-[-0.03em] uppercase">
+      <h2
+        data-reveal="zoom"
+        className="gf-reveal font-display text-center text-[clamp(2.5rem,5vw,4rem)] leading-none font-black tracking-[-0.03em] uppercase">
         Why the gully&apos;s
         <br />
         <span className="font-serif text-orange tracking-[-0.01em] italic normal-case">
@@ -20,6 +22,7 @@ export function Perks() {
           return (
             <div
               key={perk.title}
+              data-reveal="up"
               className="bg-surface border-surface-2 gf-lift gf-reveal flex flex-col gap-3 rounded-3xl border-2 p-6.5"
             >
               <Icon className={`h-8.5 w-8.5 ${iconTone[i]}`} />

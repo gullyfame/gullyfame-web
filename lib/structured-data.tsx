@@ -1,5 +1,5 @@
 import { faqs } from "@/lib/content";
-import { siteConfig } from "@/lib/seo";
+import { siteConfig, type SitePage } from "@/lib/seo";
 
 /** JSON-LD for rich results. Rendered from the root layout and the FAQ section. */
 
@@ -8,7 +8,7 @@ export const organizationJsonLd = {
   "@type": "Organization",
   name: siteConfig.name,
   url: siteConfig.url,
-  logo: `${siteConfig.url}/images/gully-fame-india-logo.png`,
+  logo: `${siteConfig.url}/images/gully-fame-india-logo.webp`,
   email: siteConfig.contactEmail,
   sameAs: [
     siteConfig.social.instagram,
@@ -53,6 +53,41 @@ export const faqJsonLd = {
     },
   })),
 };
+
+const absolute = (path: string) =>
+  path === "/" ? `${siteConfig.url}/` : `${siteConfig.url}${path}`;
+
+/** Home → this page, for the breadcrumb trail in search results. */
+export function breadcrumbJsonLd(page: SitePage) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: absolute("/") },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: page.title,
+        item: absolute(page.path),
+      },
+    ],
+  };
+}
+
+/** The page itself: AboutPage, ContactPage or a plain WebPage. */
+export function webPageJsonLd(page: SitePage) {
+  return {
+    "@context": "https://schema.org",
+    "@type": page.schemaType,
+    name: page.seoTitle,
+    description: page.description,
+    url: absolute(page.path),
+    inLanguage: siteConfig.language,
+    primaryImageOfPage: `${siteConfig.url}${page.ogImage}`,
+    isPartOf: { "@type": "WebSite", name: siteConfig.name, url: absolute("/") },
+    publisher: { "@type": "Organization", name: siteConfig.name, url: absolute("/") },
+  };
+}
 
 /** Drop <JsonLd data={...} /> anywhere in a server component. */
 export function JsonLd({ data }: { data: object }) {

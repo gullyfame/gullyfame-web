@@ -19,10 +19,10 @@ export function SiteFooter() {
   return (
     <footer className="bg-deep border-orange border-t-[3px]">
       <div className="mx-auto flex max-w-[1240px] flex-col gap-12 px-6 pt-16 pb-7">
-        <div className="flex flex-wrap justify-between gap-12">
+        <div data-reveal="up" className="gf-reveal flex flex-wrap justify-between gap-12">
           <div className="flex flex-1 basis-[260px] flex-col gap-4">
             <Image
-              src="/images/gully-fame-india-logo.png"
+              src="/images/gully-fame-india-logo.webp"
               alt={siteConfig.name}
               width={560}
               height={244}

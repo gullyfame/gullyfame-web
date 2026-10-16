@@ -5,6 +5,7 @@ export function Cta() {
   return (
     <section
       id="download"
+      data-reveal="zoom"
       className="gf-reveal mx-auto max-w-[1240px] px-6 pt-15 pb-28"
     >
       <div className="bg-orange text-ink border-ink relative flex flex-col items-center gap-6.5 overflow-hidden rounded-[36px] border-[3px] px-8 py-20 text-center shadow-[12px_12px_0_#ffffff]">

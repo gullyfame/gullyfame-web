@@ -2,19 +2,12 @@ import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { pageMetadata, siteConfig } from "@/lib/seo";
 
-export const metadata = pageMetadata({
-  title: "Privacy Policy",
-  description: `How ${siteConfig.name} collects, uses, shares and protects your personal data.`,
-  path: "/privacy",
-});
+export const metadata = pageMetadata("/privacy");
 
 export default function PrivacyPage() {
   return (
     <PageShell
       path="/privacy"
-      eyebrow="privacy policy"
-      title="Your data,"
-      accent="in plain words."
       intro="This policy explains what we collect when you use the Gully Fame India app and website, why we collect it, and what control you have over it."
       updated="[DD Month 2026]"
     >

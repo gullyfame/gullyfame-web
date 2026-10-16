@@ -2,19 +2,12 @@ import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { pageMetadata, siteConfig } from "@/lib/seo";
 
-export const metadata = pageMetadata({
-  title: "Community Guidelines",
-  description: `What is welcome and what is not on ${siteConfig.name}, how we moderate battles, and how to report a clip.`,
-  path: "/community-guidelines",
-});
+export const metadata = pageMetadata("/community-guidelines");
 
 export default function CommunityGuidelinesPage() {
   return (
     <PageShell
       path="/community-guidelines"
-      eyebrow="community guidelines"
-      title="Compete hard."
-      accent="keep it clean."
       intro="These rules apply to every clip, comment, profile and battle entry on Gully Fame India."
       updated="[DD Month 2026]"
     >

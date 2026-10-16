@@ -1,13 +1,9 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { StoreButtons } from "@/components/store-buttons";
-import { pageMetadata, siteConfig } from "@/lib/seo";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = pageMetadata({
-  title: "About Us",
-  description: `${siteConfig.name} is a weekly talent battle platform for India. Learn who we are, why we built it and how creators win.`,
-  path: "/about",
-});
+export const metadata = pageMetadata("/about");
 
 const values = [
   {
@@ -32,9 +28,6 @@ export default function AboutPage() {
   return (
     <PageShell
       path="/about"
-      eyebrow="about us"
-      title="We built a stage"
-      accent="for every gully."
       intro="Gully Fame India turns everyday talent into weekly competition — with real scores, real rankings and real prizes."
     >
       <div className="flex flex-wrap gap-14">
@@ -83,6 +76,7 @@ export default function AboutPage() {
           {values.map((value) => (
             <div
               key={value.title}
+              data-reveal="right"
               className="bg-surface border-surface-2 gf-lift gf-reveal rounded-3xl border-2 p-6"
             >
               <h3 className="font-display text-lg font-extrabold">
@@ -96,7 +90,8 @@ export default function AboutPage() {
         </aside>
       </div>
 
-      <div className="bg-brown border-line gf-reveal mt-16 flex flex-wrap items-center justify-between gap-8 rounded-[32px] border-2 p-10">
+      <div data-reveal="zoom"
+        className="bg-brown border-line gf-reveal mt-16 flex flex-wrap items-center justify-between gap-8 rounded-[32px] border-2 p-10">
         <div className="flex flex-col gap-3">
           <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.5rem)] leading-tight font-black uppercase">
             Think you&apos;ve got it?

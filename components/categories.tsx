@@ -6,8 +6,10 @@ export function Categories() {
   return (
     <section id="categories" className="bg-brown border-ink border-t-[3px]">
       <div className="mx-auto flex max-w-[1240px] flex-col gap-12 px-6 py-24">
-        <div className="gf-reveal flex flex-wrap items-end justify-between gap-6">
-          <h2 className="font-display text-[clamp(2.5rem,5vw,4rem)] leading-none font-black tracking-[-0.03em] uppercase">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <h2
+            data-reveal="left"
+            className="gf-reveal font-display text-[clamp(2.5rem,5vw,4rem)] leading-none font-black tracking-[-0.03em] uppercase">
             What&apos;s your
             <br />
             <span className="font-serif text-orange tracking-[-0.01em] italic normal-case">
@@ -16,7 +18,8 @@ export function Categories() {
           </h2>
           <Link
             href="#battles"
-            className="font-display border-orange border-b-2 pb-1 text-base font-bold text-white"
+            data-reveal="right"
+            className="gf-reveal font-display border-orange border-b-2 pb-1 text-base font-bold text-white"
           >
             View all categories →
           </Link>
@@ -29,6 +32,7 @@ export function Categories() {
               <Link
                 key={category.name}
                 href="#battles"
+                data-reveal="zoom"
                 className={`gf-lift gf-reveal flex flex-col gap-10 rounded-[28px] border-2 p-7 ${
                   category.featured
                     ? "bg-orange border-orange text-ink -rotate-2 shadow-[6px_6px_0_var(--color-ink)]"

@@ -2,9 +2,18 @@
 
 import { useEffect } from "react";
 import { initMotion } from "@/lib/motion";
+import { initSmoothScroll } from "@/lib/smooth-scroll";
 
-/** Mounts the scroll effects for the current page. Renders nothing. */
+/** Mounts the page's scroll effects. Renders nothing. */
 export function SiteMotion() {
-  useEffect(() => initMotion(), []);
+  useEffect(() => {
+    const stopMotion = initMotion();
+    const stopSmoothScroll = initSmoothScroll();
+    return () => {
+      stopMotion();
+      stopSmoothScroll();
+    };
+  }, []);
+
   return null;
 }

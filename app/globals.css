@@ -31,9 +31,22 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* ---------------------------------------------------------------- *
- * Keyframes — transform/opacity only, so nothing triggers layout.
- * ---------------------------------------------------------------- */
+/* ================================================================= *
+ * MOTION
+ *
+ * One knob controls how far everything moves: --gf-motion.
+ *   1    normally
+ *   0.5  when the visitor's OS asks for reduced motion (set at the
+ *        bottom of this file). Set it to 0 there to remove movement
+ *        entirely for those visitors.
+ *
+ * Entrances and reveals move with the individual `translate` and
+ * `scale` properties, floats and hover lifts use `transform`, and
+ * Tailwind's rotate-* utilities use `rotate`. Because they are separate
+ * properties they stack on one element instead of cancelling out.
+ * ================================================================= */
+
+/* ---- Keyframes ------------------------------------------------- */
 @keyframes gf-marquee {
   from {
     transform: translateX(0);
@@ -43,14 +56,48 @@
   }
 }
 
-@keyframes gf-reveal-in {
+/* Page-load entrances (hero, page headers). "from" only: each one
+   animates back to the element's own resting values. */
+@keyframes gf-enter-left {
   from {
     opacity: 0;
-    transform: translateY(28px);
+    translate: calc(-90px * var(--gf-motion)) 0;
   }
-  to {
+}
+
+@keyframes gf-enter-right {
+  from {
+    opacity: 0;
+    translate: calc(110px * var(--gf-motion)) 0;
+  }
+}
+
+@keyframes gf-enter-up {
+  from {
+    opacity: 0;
+    translate: 0 calc(44px * var(--gf-motion));
+  }
+}
+
+@keyframes gf-enter-down {
+  from {
+    opacity: 0;
+    translate: 0 calc(-28px * var(--gf-motion));
+  }
+}
+
+@keyframes gf-enter-pop {
+  0% {
+    opacity: 0;
+    scale: calc(1 - 0.6 * var(--gf-motion));
+  }
+  65% {
     opacity: 1;
-    transform: none;
+    scale: calc(1 + 0.08 * var(--gf-motion));
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
   }
 }
 
@@ -60,7 +107,16 @@
     transform: var(--gf-rest) translateY(0);
   }
   50% {
-    transform: var(--gf-rest) translateY(-10px);
+    transform: var(--gf-rest) translateY(calc(-11px * var(--gf-motion)));
+  }
+}
+
+@keyframes gf-drift {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: calc(-60px * var(--gf-motion)) calc(40px * var(--gf-motion));
   }
 }
 
@@ -68,18 +124,29 @@
   0%,
   100% {
     opacity: 1;
-    transform: scale(1);
+    scale: 1;
   }
   50% {
-    opacity: 0.45;
-    transform: scale(0.82);
+    opacity: calc(1 - 0.55 * var(--gf-motion));
+    scale: calc(1 - 0.2 * var(--gf-motion));
+  }
+}
+
+@keyframes gf-open {
+  from {
+    opacity: 0;
+    translate: 0 calc(-8px * var(--gf-motion));
   }
 }
 
 @layer base {
+  :root {
+    --gf-motion: 1;
+  }
+
   html {
     scroll-behavior: smooth;
-    /* Keeps anchor targets clear of the sticky header. */
+    /* Keeps anchor targets clear of the fixed header. */
     scroll-padding-top: 6rem;
   }
 
@@ -97,12 +164,138 @@
 }
 
 @layer utilities {
+  /* ---- Marquee -------------------------------------------------- */
   .gf-marquee-track {
     animation: gf-marquee 32s linear infinite;
     will-change: transform;
   }
 
-  /* Native <details> menus and accordions: hide the default marker */
+  /* ---- Page-load entrances --------------------------------------
+     <div class="gf-enter gf-enter-left" style="--gf-delay: 120ms"> */
+  .gf-enter {
+    animation-duration: 0.95s;
+    animation-timing-function: cubic-bezier(0.16, 0.84, 0.24, 1);
+    animation-fill-mode: both;
+    animation-delay: var(--gf-delay, 0ms);
+  }
+
+  .gf-enter-left {
+    animation-name: gf-enter-left;
+  }
+
+  .gf-enter-right {
+    animation-name: gf-enter-right;
+  }
+
+  .gf-enter-up {
+    animation-name: gf-enter-up;
+  }
+
+  .gf-enter-down {
+    animation-name: gf-enter-down;
+  }
+
+  .gf-enter-pop {
+    animation-name: gf-enter-pop;
+    animation-duration: 0.7s;
+  }
+
+  /* ---- Scroll reveal (driven by lib/motion.ts) ------------------
+     <div class="gf-reveal" data-reveal="left|right|up|zoom"> */
+  .gf-reveal-pending {
+    opacity: 0;
+    translate: 0 calc(70px * var(--gf-motion));
+    filter: blur(calc(10px * var(--gf-motion)));
+  }
+
+  .gf-reveal-pending[data-reveal="left"] {
+    translate: calc(-140px * var(--gf-motion)) 0;
+  }
+
+  .gf-reveal-pending[data-reveal="right"] {
+    translate: calc(140px * var(--gf-motion)) 0;
+  }
+
+  .gf-reveal-pending[data-reveal="zoom"] {
+    translate: none;
+    scale: calc(1 - 0.2 * var(--gf-motion));
+  }
+
+  .gf-reveal-in {
+    opacity: 1;
+    translate: none;
+    scale: none;
+    filter: none;
+    transition:
+      opacity 0.9s ease-out,
+      translate 1.15s cubic-bezier(0.22, 1, 0.36, 1),
+      scale 1.15s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.9s ease-out;
+  }
+
+  /* ---- Ambient motion ------------------------------------------- */
+  /* Floating stickers. --gf-rest keeps each sticker's own tilt. */
+  .gf-float {
+    --gf-rest: rotate(0deg);
+    animation: gf-float 5.5s ease-in-out infinite;
+  }
+
+  .gf-float-slow {
+    animation-duration: 7.5s;
+  }
+
+  .gf-float-delay {
+    animation-delay: -2.4s;
+  }
+
+  /* Slow drift for the hero's background glows */
+  .gf-drift {
+    animation: gf-drift 14s ease-in-out infinite alternate;
+  }
+
+  .gf-drift-reverse {
+    animation-direction: alternate-reverse;
+    animation-duration: 18s;
+  }
+
+  .gf-pulse-dot {
+    animation: gf-pulse-dot 1.8s ease-in-out infinite;
+  }
+
+  /* Lift on hover for cards and tiles */
+  .gf-lift {
+    transition:
+      transform 0.3s cubic-bezier(0.2, 0.8, 0.3, 1),
+      box-shadow 0.3s ease;
+  }
+
+  .gf-lift:hover {
+    transform: translateY(calc(-7px * var(--gf-motion)));
+  }
+
+  /* ---- Header ----------------------------------------------------
+     Transparent over the hero so it reads as part of it; a light tint
+     and blur fade in once the page scrolls (html[data-scrolled] is set
+     by lib/motion.ts). */
+  .gf-header {
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color 0.4s ease,
+      backdrop-filter 0.4s ease,
+      -webkit-backdrop-filter 0.4s ease,
+      border-color 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  html[data-scrolled="true"] .gf-header {
+    background-color: rgb(43 26 12 / 0.55);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+    border-bottom-color: rgb(90 70 49 / 0.35);
+    box-shadow: 0 12px 32px -20px rgb(20 12 5 / 0.9);
+  }
+
+  /* ---- Native <details> menus and accordions --------------------- */
   .gf-menu > summary,
   .gf-faq > summary {
     list-style: none;
@@ -112,6 +305,10 @@
   .gf-menu > summary::-webkit-details-marker,
   .gf-faq > summary::-webkit-details-marker {
     display: none;
+  }
+
+  .gf-menu[open] > div {
+    animation: gf-open 0.25s ease-out both;
   }
 
   .gf-faq {
@@ -132,35 +329,10 @@
   }
 
   .gf-faq[open] > summary + * {
-    animation: gf-reveal-in 0.28s ease-out both;
+    animation: gf-open 0.3s ease-out both;
   }
 
-  /* Lift on hover for cards and tiles */
-  .gf-lift {
-    transition:
-      transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1),
-      box-shadow 0.25s ease;
-  }
-
-  .gf-lift:hover {
-    transform: translateY(-6px);
-  }
-
-  /* Floating stickers. --gf-rest keeps the element's resting rotation. */
-  .gf-float {
-    --gf-rest: rotate(0deg);
-    animation: gf-float 5.5s ease-in-out infinite;
-  }
-
-  .gf-float-slow {
-    animation-duration: 7.5s;
-  }
-
-  .gf-float-delay {
-    animation-delay: -2.4s;
-  }
-
-  /* Long-form text on the brown ground: about and legal pages */
+  /* ---- Long-form text: about and legal pages --------------------- */
   .gf-prose {
     max-width: 72ch;
     color: var(--color-soft);
@@ -215,79 +387,19 @@
     color: #ffffff;
     font-weight: 700;
   }
-
-  .gf-pulse-dot {
-    animation: gf-pulse-dot 1.8s ease-in-out infinite;
-  }
-
-  /*
-   * Navbar: fully transparent over the hero so it reads as part of it, then a
-   * light tint and blur fade in once the page scrolls (html[data-scrolled] is
-   * set by lib/motion.ts).
-   */
-  .gf-header {
-    border-bottom: 1px solid transparent;
-    transition:
-      background-color 0.4s ease,
-      backdrop-filter 0.4s ease,
-      -webkit-backdrop-filter 0.4s ease,
-      border-color 0.4s ease,
-      box-shadow 0.4s ease;
-  }
-
-  html[data-scrolled="true"] .gf-header {
-    background-color: rgb(43 26 12 / 0.55);
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
-    backdrop-filter: blur(10px) saturate(140%);
-    border-bottom-color: rgb(90 70 49 / 0.35);
-    box-shadow: 0 12px 32px -20px rgb(20 12 5 / 0.9);
-  }
-
-  /* Scroll reveal, driven by lib/motion.ts */
-  .gf-reveal-pending {
-    opacity: 0;
-    transform: translate3d(0, 34px, 0);
-  }
-
-  .gf-reveal-in {
-    opacity: 1;
-    transform: none;
-    transition:
-      opacity 0.75s cubic-bezier(0.2, 0.7, 0.2, 1),
-      transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
 }
 
+/* ================================================================= *
+ * Reduced motion: everything still animates, at half the distance.
+ * Change --gf-motion to 0 here to remove movement entirely for
+ * visitors who ask for it.
+ * ================================================================= */
 @media (prefers-reduced-motion: reduce) {
-  /*
-   * The marquee keeps running: it is the band's whole point, and a frozen
-   * strip of text reads as a broken page. It is slowed down instead.
-   * To stop it for reduced-motion users too, add .gf-marquee-track to the
-   * rule below.
-   */
+  :root {
+    --gf-motion: 0.5;
+  }
+
   .gf-marquee-track {
     animation-duration: 60s;
-  }
-
-  .gf-float,
-  .gf-pulse-dot,
-  .gf-faq[open] > summary + * {
-    animation: none;
-  }
-
-  .gf-reveal-pending {
-    transform: none;
-  }
-
-  .gf-reveal-in {
-    transition: opacity 0.6s ease;
-  }
-
-  .gf-lift {
-    transition: none;
-  }
-
-  .gf-lift:hover {
-    transform: none;
   }
 }

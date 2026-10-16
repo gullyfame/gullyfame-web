@@ -2,12 +2,71 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Gully Fame India</title>
-    <link>https://gullyfameindia.com</link>
-    <description>Join weekly talent battles in music, dance, cooking and comedy on Gully Fame India. Upload your clip, earn points from votes, climb the live leaderboard and win real prizes.</description>
+    <link>https://gullyfameindia.com/</link>
+    <description>Weekly talent battles in music, dance, cooking and comedy. Upload your clip, earn points from votes, climb the live leaderboard and win real prizes.</description>
     <language>en-IN</language>
-    <lastBuildDate>Wed, 14 Oct 2026 18:11:32 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 16 Oct 2026 18:07:13 GMT</lastBuildDate>
     <copyright>© 2026 Gully Fame India</copyright>
+    <ttl>1440</ttl>
+    <image>
+      <url>https://gullyfameindia.com/apple-icon.png</url>
+      <title>Gully Fame India</title>
+      <link>https://gullyfameindia.com/</link>
+    </image>
     <atom:link href="https://gullyfameindia.com/rss.xml" rel="self" type="application/rss+xml" />
-
+    <item>
+      <title>About Us — Gully Fame India</title>
+      <link>https://gullyfameindia.com/about</link>
+      <guid isPermaLink="true">https://gullyfameindia.com/about</guid>
+      <pubDate>Fri, 16 Oct 2026 18:05:58 GMT</pubDate>
+      <category>Pages</category>
+      <description>Gully Fame India is a weekly talent battle platform built for India. Our mission, how battles and voting work, and why talent beats followers.</description>
+      <enclosure url="https://gullyfameindia.com/og/about.png" length="182203" type="image/png" />
+    </item>
+    <item>
+      <title>Contact Us — Gully Fame India</title>
+      <link>https://gullyfameindia.com/contact</link>
+      <guid isPermaLink="true">https://gullyfameindia.com/contact</guid>
+      <pubDate>Fri, 16 Oct 2026 18:05:58 GMT</pubDate>
+      <category>Pages</category>
+      <description>Contact the Gully Fame India team for app support, content reports, brand partnerships and press, plus our grievance officer and response times.</description>
+      <enclosure url="https://gullyfameindia.com/og/contact.png" length="166177" type="image/png" />
+    </item>
+    <item>
+      <title>Gully Fame India — Talent Battles. Win Prizes. Earn Fame.</title>
+      <link>https://gullyfameindia.com/</link>
+      <guid isPermaLink="true">https://gullyfameindia.com/</guid>
+      <pubDate>Fri, 16 Oct 2026 18:05:58 GMT</pubDate>
+      <category>Pages</category>
+      <description>Weekly talent battles in music, dance, cooking and comedy. Upload your clip, earn points from votes, climb the live leaderboard and win real prizes.</description>
+      <enclosure url="https://gullyfameindia.com/og-image.png" length="276497" type="image/png" />
+    </item>
+    <item>
+      <title>Community Guidelines — Gully Fame India</title>
+      <link>https://gullyfameindia.com/community-guidelines</link>
+      <guid isPermaLink="true">https://gullyfameindia.com/community-guidelines</guid>
+      <pubDate>Fri, 16 Oct 2026 18:05:22 GMT</pubDate>
+      <category>Pages</category>
+      <description>What&apos;s welcome on Gully Fame India, what we remove, how we keep leaderboards and voting fair, and how to report a clip or appeal a decision.</description>
+      <enclosure url="https://gullyfameindia.com/og/community-guidelines.png" length="181587" type="image/png" />
+    </item>
+    <item>
+      <title>Privacy Policy — Gully Fame India</title>
+      <link>https://gullyfameindia.com/privacy</link>
+      <guid isPermaLink="true">https://gullyfameindia.com/privacy</guid>
+      <pubDate>Fri, 16 Oct 2026 18:05:22 GMT</pubDate>
+      <category>Pages</category>
+      <description>How Gully Fame India collects, uses, shares and protects your personal data, how long we keep it, and the rights you have over it.</description>
+      <enclosure url="https://gullyfameindia.com/og/privacy.png" length="181963" type="image/png" />
+    </item>
+    <item>
+      <title>Terms of Service — Gully Fame India</title>
+      <link>https://gullyfameindia.com/terms</link>
+      <guid isPermaLink="true">https://gullyfameindia.com/terms</guid>
+      <pubDate>Fri, 16 Oct 2026 18:05:22 GMT</pubDate>
+      <category>Pages</category>
+      <description>The terms for using Gully Fame India: your account, the content you upload, how battles, points and prizes work, and the rules everyone plays by.</description>
+      <enclosure url="https://gullyfameindia.com/og/terms.png" length="172186" type="image/png" />
+    </item>
   </channel>
 </rss>

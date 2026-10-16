@@ -2,26 +2,39 @@
 /**
  * Generates public/sitemap.xml and public/rss.xml from site.data.json.
  *
- *   node scripts/generate-feeds.mjs
+ *   npm run feeds
  *
- * Runs automatically before `npm run build` (see the "prebuild" script).
+ * Also runs automatically before `npm run build` (the "prebuild" script).
  * Override the domain with NEXT_PUBLIC_SITE_URL, e.g.
- *   NEXT_PUBLIC_SITE_URL=https://gullyfame.in node scripts/generate-feeds.mjs
+ *   NEXT_PUBLIC_SITE_URL=https://gullyfame.in npm run feeds
  *
- * To publish an RSS item, add an entry to "updates" in site.data.json:
- *   { "title": "...", "path": "/blog/my-post", "description": "...",
- *     "publishedAt": "2026-10-20T09:00:00+05:30" }
+ * Sitemap
+ *   One <url> per entry in site.data.json "pages", with:
+ *   - lastmod: the real last-modified date of that route's page file
+ *     (app/about/page.tsx for /about), so search engines only re-crawl
+ *     pages that actually changed;
+ *   - the page's Open Graph image as an image-sitemap entry.
+ *
+ * RSS
+ *   - every item in "updates" (announcements you write), newest first;
+ *   - then every page, dated by when its file last changed.
+ *   To post an announcement, add to "updates":
+ *     { "title": "Dance-Off Delhi is open", "path": "/",
+ *       "description": "Entries close Sunday.",
+ *       "publishedAt": "2026-10-20T09:00:00+05:30" }
  */
 
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLIC_DIR = join(ROOT, "public");
-
 const DATA_FILE = join(ROOT, "site.data.json");
+
 const data = JSON.parse(readFileSync(DATA_FILE, "utf8"));
+
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || data.url).replace(/\/+$/, "");
 
 /*
  * Keep the footer's copyright year current without reading the clock while a
@@ -35,11 +48,6 @@ if (data.copyrightYear !== currentYear) {
   console.log(`Updated copyrightYear to ${currentYear} in site.data.json`);
 }
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || data.url).replace(
-  /\/+$/,
-  "",
-);
-
 /** XML-escape text so stray &, <, > or quotes cannot break the feed. */
 function esc(value) {
   return String(value)
@@ -51,48 +59,73 @@ function esc(value) {
 }
 
 function absolute(path) {
-  return `${SITE_URL}${path === "/" ? "/" : path.replace(/\/+$/, "")}`;
+  return path === "/" ? `${SITE_URL}/` : `${SITE_URL}${path.replace(/\/+$/, "")}`;
 }
 
-function buildSitemap(pages, lastmod) {
+/** Last time the route's page file changed; falls back to now. */
+function lastModified(path) {
+  const file =
+    path === "/" ? join(ROOT, "app", "page.tsx") : join(ROOT, "app", ...path.split("/").filter(Boolean), "page.tsx");
+  return existsSync(file) ? statSync(file).mtime : new Date();
+}
+
+const isoDate = (d) => d.toISOString().slice(0, 10);
+
+// ---------------------------------------------------------------- sitemap
+function buildSitemap(pages) {
   const urls = pages
-    .map((page) =>
-      [
+    .map((page) => {
+      const lines = [
         "  <url>",
         `    <loc>${esc(absolute(page.path))}</loc>`,
-        `    <lastmod>${page.lastmod || lastmod}</lastmod>`,
+        `    <lastmod>${isoDate(lastModified(page.path))}</lastmod>`,
         `    <changefreq>${esc(page.changefreq || "monthly")}</changefreq>`,
         `    <priority>${Number(page.priority ?? 0.5).toFixed(1)}</priority>`,
-        "  </url>",
-      ].join("\n"),
-    )
+      ];
+      if (page.ogImage) {
+        lines.push(
+          "    <image:image>",
+          `      <image:loc>${esc(`${SITE_URL}${page.ogImage}`)}</image:loc>`,
+          "    </image:image>",
+        );
+      }
+      lines.push("  </url>");
+      return lines.join("\n");
+    })
     .join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${urls}
 </urlset>
 `;
 }
 
-function buildRss(updates, buildDate) {
-  const items = updates
+// -------------------------------------------------------------------- rss
+function buildRss(items, buildDate) {
+  const body = items
     .map((item) => {
       const link = absolute(item.path);
-      const pubDate = new Date(item.publishedAt || buildDate).toUTCString();
-      return [
+      const lines = [
         "    <item>",
         `      <title>${esc(item.title)}</title>`,
         `      <link>${esc(link)}</link>`,
-        `      <guid isPermaLink="true">${esc(link)}</guid>`,
-        `      <pubDate>${pubDate}</pubDate>`,
-        item.description
-          ? `      <description>${esc(item.description)}</description>`
-          : null,
-        "    </item>",
-      ]
-        .filter(Boolean)
-        .join("\n");
+        // Announcements can share a path, so their guid also carries the date.
+        `      <guid isPermaLink="${item.permalink ? "true" : "false"}">${esc(item.guid)}</guid>`,
+        `      <pubDate>${item.date.toUTCString()}</pubDate>`,
+        `      <category>${esc(item.category)}</category>`,
+      ];
+      if (item.description) lines.push(`      <description>${esc(item.description)}</description>`);
+      if (item.image) {
+        const file = join(PUBLIC_DIR, ...item.image.split("/").filter(Boolean));
+        const bytes = existsSync(file) ? statSync(file).size : 0;
+        lines.push(
+          `      <enclosure url="${esc(`${SITE_URL}${item.image}`)}" length="${bytes}" type="image/png" />`,
+        );
+      }
+      lines.push("    </item>");
+      return lines.join("\n");
     })
     .join("\n");
 
@@ -100,31 +133,64 @@ function buildRss(updates, buildDate) {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${esc(data.name)}</title>
-    <link>${esc(SITE_URL)}</link>
+    <link>${esc(`${SITE_URL}/`)}</link>
     <description>${esc(data.description)}</description>
     <language>${esc(data.language)}</language>
-    <lastBuildDate>${new Date(buildDate).toUTCString()}</lastBuildDate>
+    <lastBuildDate>${buildDate.toUTCString()}</lastBuildDate>
     <copyright>© ${data.copyrightYear} ${esc(data.copyrightHolder)}</copyright>
+    <ttl>1440</ttl>
+    <image>
+      <url>${esc(`${SITE_URL}/apple-icon.png`)}</url>
+      <title>${esc(data.name)}</title>
+      <link>${esc(`${SITE_URL}/`)}</link>
+    </image>
     <atom:link href="${esc(`${SITE_URL}/rss.xml`)}" rel="self" type="application/rss+xml" />
-${items}
+${body}
   </channel>
 </rss>
 `;
 }
 
+// ------------------------------------------------------------------- run
 const now = new Date();
-const today = now.toISOString().slice(0, 10);
-
 mkdirSync(PUBLIC_DIR, { recursive: true });
 
-const sitemap = buildSitemap(data.pages, today);
-writeFileSync(join(PUBLIC_DIR, "sitemap.xml"), sitemap, "utf8");
+writeFileSync(join(PUBLIC_DIR, "sitemap.xml"), buildSitemap(data.pages), "utf8");
 
-const rss = buildRss(data.updates ?? [], now);
-writeFileSync(join(PUBLIC_DIR, "rss.xml"), rss, "utf8");
+const announcements = (data.updates ?? [])
+  .map((u) => {
+    const date = new Date(u.publishedAt || now);
+    return {
+      title: u.title,
+      path: u.path || "/",
+      description: u.description,
+      image: u.image,
+      date,
+      category: "Announcements",
+      guid: `${absolute(u.path || "/")}#${date.toISOString()}`,
+      permalink: false,
+    };
+  })
+  .sort((a, b) => b.date - a.date);
+
+const pageItems = data.pages
+  .map((p) => ({
+    title: p.path === "/" ? p.seoTitle : `${p.title} — ${data.name}`,
+    path: p.path,
+    description: p.description,
+    image: p.ogImage,
+    date: lastModified(p.path),
+    category: "Pages",
+    guid: absolute(p.path),
+    permalink: true,
+  }))
+  .sort((a, b) => b.date - a.date);
+
+const items = [...announcements, ...pageItems];
+writeFileSync(join(PUBLIC_DIR, "rss.xml"), buildRss(items, now), "utf8");
 
 console.log(
   `Feeds written for ${SITE_URL}\n` +
-    `  public/sitemap.xml  ${data.pages.length} URL(s)\n` +
-    `  public/rss.xml      ${(data.updates ?? []).length} item(s)`,
+    `  public/sitemap.xml  ${data.pages.length} URL(s), ${data.pages.filter((p) => p.ogImage).length} image(s)\n` +
+    `  public/rss.xml      ${announcements.length} announcement(s) + ${pageItems.length} page(s)`,
 );

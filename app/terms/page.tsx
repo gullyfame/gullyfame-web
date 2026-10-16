@@ -2,19 +2,12 @@ import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { pageMetadata, siteConfig } from "@/lib/seo";
 
-export const metadata = pageMetadata({
-  title: "Terms of Service",
-  description: `The terms you agree to when you use the ${siteConfig.name} app and website.`,
-  path: "/terms",
-});
+export const metadata = pageMetadata("/terms");
 
 export default function TermsPage() {
   return (
     <PageShell
       path="/terms"
-      eyebrow="terms of service"
-      title="The rules of"
-      accent="the game."
       intro="These terms are the agreement between you and Gully Fame India. By creating an account or entering a battle, you accept them."
       updated="[DD Month 2026]"
     >

@@ -37,7 +37,8 @@ export function Marquee() {
   return (
     <div
       aria-hidden="true"
-      className="bg-orange text-ink border-ink relative z-2 -mt-12 -ml-[10%] w-[120%] -rotate-2 overflow-hidden border-y-[3px] py-4.5"
+      data-reveal="right"
+      className="gf-reveal bg-orange text-ink border-ink relative z-2 -mt-12 -ml-[10%] w-[120%] -rotate-2 overflow-hidden border-y-[3px] py-4.5"
     >
       <div className="gf-marquee-track font-display flex w-max text-3xl font-black tracking-tight whitespace-nowrap uppercase">
         <Strip />

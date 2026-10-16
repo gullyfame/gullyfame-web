@@ -9,7 +9,10 @@ export function Faq() {
       id="faq"
       className="mx-auto flex max-w-[1240px] flex-wrap items-start gap-14 px-6 pt-20 pb-15"
     >
-      <div className="gf-reveal flex min-w-0 flex-1 basis-[340px] flex-col gap-5.5">
+      <div
+        data-reveal="left"
+        className="gf-reveal flex min-w-0 flex-1 basis-[340px] flex-col gap-5.5"
+      >
         <span className="bg-lilac text-ink font-display self-start -rotate-3 rounded-full px-3.5 py-2 text-sm font-extrabold">
           got questions?
         </span>
@@ -41,6 +44,7 @@ export function Faq() {
             key={faq.question}
             name="gf-faq"
             open={i === 0}
+            data-reveal="right"
             className="gf-faq gf-reveal bg-surface border-surface-2 rounded-[22px] border-2 px-6 py-1.5"
           >
             <summary className="font-display flex min-h-16 items-center justify-between gap-4 text-xl font-bold">

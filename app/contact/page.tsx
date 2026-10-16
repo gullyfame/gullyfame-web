@@ -8,11 +8,7 @@ import {
 import { PageShell } from "@/components/page-shell";
 import { pageMetadata, siteConfig } from "@/lib/seo";
 
-export const metadata = pageMetadata({
-  title: "Contact Us",
-  description: `Get in touch with the ${siteConfig.name} team — support, partnerships, press and content reports.`,
-  path: "/contact",
-});
+export const metadata = pageMetadata("/contact");
 
 const channels = [
   {
@@ -51,18 +47,16 @@ export default function ContactPage() {
   return (
     <PageShell
       path="/contact"
-      eyebrow="contact us"
-      title="Talk to the"
-      accent="team."
       intro="Pick the channel that fits and we'll come back to you. In-app reports are the fastest route for anything about a specific clip."
     >
       <div className="grid gap-5 md:grid-cols-2">
-        {channels.map((channel) => (
+        {channels.map((channel, i) => (
           <a
             key={channel.label}
             href={`mailto:${channel.email}?subject=${encodeURIComponent(
               `[${channel.subject}] `,
             )}`}
+            data-reveal={i % 2 === 0 ? "left" : "right"}
             className="bg-surface border-surface-2 gf-lift gf-reveal flex flex-col gap-2 rounded-3xl border-2 p-7"
           >
             <span className="font-display flex items-center gap-2 text-xl font-extrabold">
@@ -114,7 +108,7 @@ export default function ContactPage() {
         </div>
 
         <div className="flex min-w-0 flex-1 basis-[320px] flex-col gap-6">
-          <div className="bg-brown border-line gf-reveal rounded-3xl border-2 p-7">
+          <div data-reveal="right" className="bg-brown border-line gf-reveal rounded-3xl border-2 p-7">
             <h2 className="font-display text-xl font-extrabold">Follow along</h2>
             <p className="text-muted mt-2 text-[15px]">
               Battle announcements and winners go out here first.
@@ -133,7 +127,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="bg-orange text-ink gf-reveal rounded-3xl p-7">
+          <div data-reveal="right" className="bg-orange text-ink gf-reveal rounded-3xl p-7">
             <h2 className="font-display text-xl font-extrabold">
               Reporting a clip?
             </h2>

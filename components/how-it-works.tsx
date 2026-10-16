@@ -21,26 +21,32 @@ const tones = {
 export function HowItWorks() {
   return (
     <section className="mx-auto flex max-w-[1240px] flex-col gap-12 px-6 pt-30 pb-20">
-      <div className="gf-reveal flex flex-wrap items-end justify-between gap-6">
-        <h2 className="font-display text-[clamp(2.5rem,5vw,4rem)] leading-none font-black tracking-[-0.03em] uppercase">
+      <div className="flex flex-wrap items-end justify-between gap-6">
+        <h2
+          data-reveal="left"
+          className="gf-reveal font-display text-[clamp(2.5rem,5vw,4rem)] leading-none font-black tracking-[-0.03em] uppercase">
           3 steps to
           <br />
           <span className="font-serif text-orange tracking-[-0.01em] italic normal-case">
             gully-famous
           </span>
         </h2>
-        <p className="text-muted basis-[360px] text-[17px] leading-relaxed">
+        <p
+          data-reveal="right"
+          className="gf-reveal text-muted basis-[360px] text-[17px] leading-relaxed"
+        >
           No followers needed to get started. Every week is a fresh shot at the
           top.
         </p>
       </div>
 
       <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-        {steps.map((step) => {
+        {steps.map((step, i) => {
           const tone = tones[step.tone];
           return (
             <div
               key={step.number}
+              data-reveal={["left", "up", "right"][i % 3]}
               className={`gf-lift gf-reveal flex flex-col gap-4 rounded-[28px] p-8 ${tone.card}`}
             >
               <span

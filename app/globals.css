@@ -295,6 +295,25 @@
     box-shadow: 0 12px 32px -20px rgb(20 12 5 / 0.9);
   }
 
+  /* ---- Navbar links ----------------------------------------------
+     data-active is set on the server for the current page and updated
+     by lib/scroll-spy.ts for the section on screen. */
+  .gf-nav-link {
+    color: #ffffff;
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease;
+  }
+
+  .gf-nav-link:hover {
+    background-color: var(--color-surface-2);
+  }
+
+  .gf-nav-link[data-active="true"] {
+    background-color: var(--color-orange);
+    color: var(--color-ink);
+  }
+
   /* ---- Native <details> menus and accordions --------------------- */
   .gf-menu > summary,
   .gf-faq > summary {

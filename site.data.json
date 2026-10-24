@@ -50,6 +50,27 @@
       "priority": 0.8
     },
     {
+      "path": "/faqs",
+      "title": "FAQs",
+      "seoTitle": "FAQs — Talent Battles, Rules and Your Data",
+      "heading": "Questions,",
+      "accent": "answered.",
+      "eyebrow": "faqs",
+      "description": "Answers to common questions about Gully Fame India: who can join, registration, content rules, AI and deepfakes, voting, data protection and grievances.",
+      "keywords": [
+        "Gully Fame India FAQs",
+        "talent battle app questions",
+        "GullyFame rules",
+        "DPDP data questions",
+        "grievance officer India app"
+      ],
+      "ogImage": "/og/faqs.png",
+      "ogAlt": "Gully Fame India FAQs — questions, answered.",
+      "schemaType": "WebPage",
+      "changefreq": "monthly",
+      "priority": 0.7
+    },
+    {
       "path": "/contact",
       "title": "Contact Us",
       "seoTitle": "Contact Us — Support, Partners & Press",

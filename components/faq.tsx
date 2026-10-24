@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { PlusIcon } from "@/components/icons";
-import { faqs } from "@/lib/content";
+import { FaqList } from "@/components/faq-list";
+import { homeFaqs } from "@/lib/content";
 import { faqJsonLd, JsonLd } from "@/lib/structured-data";
 
 export function Faq() {
@@ -37,30 +37,19 @@ export function Faq() {
         </Link>
       </div>
 
-      {/* Native exclusive accordion: only one answer open, first one open on load. */}
-      <div className="flex min-w-0 flex-2 basis-[560px] flex-col gap-3.5">
-        {faqs.map((faq, i) => (
-          <details
-            key={faq.question}
-            name="gf-faq"
-            open={i === 0}
-            data-reveal="right"
-            className="gf-faq gf-reveal bg-surface border-surface-2 rounded-[22px] border-2 px-6 py-1.5"
-          >
-            <summary className="font-display flex min-h-16 items-center justify-between gap-4 text-xl font-bold">
-              {faq.question}
-              <span className="gf-faq-plus bg-orange flex h-9.5 w-9.5 shrink-0 items-center justify-center rounded-full text-ink transition-transform duration-200">
-                <PlusIcon className="h-4.5 w-4.5" />
-              </span>
-            </summary>
-            <p className="text-soft mb-5 text-base leading-relaxed">
-              {faq.answer}
-            </p>
-          </details>
-        ))}
+      <div className="flex min-w-0 flex-2 basis-[560px] flex-col gap-6">
+        <FaqList items={homeFaqs} />
+
+        <Link
+          href="/faqs"
+          data-reveal="right"
+          className="gf-reveal text-ink font-display gf-lift inline-flex min-h-[48px] self-end items-center rounded-full bg-orange px-5.5 py-3.5 text-[15px] font-bold shadow-[4px_4px_0_var(--color-ink)]"
+        >
+          See all FAQs →
+        </Link>
       </div>
 
-      <JsonLd data={faqJsonLd} />
+      <JsonLd data={faqJsonLd(homeFaqs)} />
     </section>
   );
 }

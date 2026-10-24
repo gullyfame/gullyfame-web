@@ -12,18 +12,24 @@ import siteData from "@/site.data.json";
  *    exact same list when it writes sitemap.xml and rss.xml.
  */
 
-// The public address used in canonical links, OG images and feeds, in order:
-//   1. NEXT_PUBLIC_SITE_URL, if set (set it once the real domain is live)
-//   2. the project's production address on Vercel (set by Vercel itself)
-//   3. the url in site.data.json
+// The public address used in canonical links, OG images and feeds.
 // Link previews (WhatsApp, X, LinkedIn) load the OG image from this address,
-// so it must be a domain that actually serves the site.
-const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : undefined;
+// so it must be a domain that actually serves the site. Same logic as
+// scripts/generate-feeds.mjs.
+//
+// Works on any host: set NEXT_PUBLIC_SITE_URL wherever you deploy. If it is
+// missing, the address a few common hosts provide is used instead, and
+// finally the url in site.data.json.
+const withProtocol = (host?: string) =>
+  host ? (/^https?:\/\//.test(host) ? host : `https://${host}`) : undefined;
 
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL || vercelUrl || siteData.url
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  withProtocol(process.env.VERCEL_PROJECT_PRODUCTION_URL) || // Vercel
+  process.env.URL || // Netlify
+  process.env.RENDER_EXTERNAL_URL || // Render
+  withProtocol(process.env.RAILWAY_PUBLIC_DOMAIN) || // Railway
+  siteData.url
 ).replace(/\/+$/, "");
 
 /** Every route in the site, shared with scripts/generate-feeds.mjs. */

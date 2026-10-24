@@ -1,4 +1,4 @@
-import { faqs } from "@/lib/content";
+import type { Faq } from "@/lib/content";
 import { siteConfig, type SitePage } from "@/lib/seo";
 
 /** JSON-LD for rich results. Rendered from the root layout and the FAQ section. */
@@ -41,18 +41,28 @@ export const mobileAppJsonLd = {
   },
 };
 
-export const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: faq.answer,
-    },
-  })),
-};
+/** FAQPage JSON-LD for the questions shown on a page. Must match what is visible. */
+export function faqJsonLd(list: readonly Faq[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: list.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        // Paragraphs and their points flattened into one plain-text answer.
+        text: faq.answer
+          .map((block) =>
+            block.points
+              ? `${block.text} ${block.points.join(" ")}`
+              : block.text,
+          )
+          .join(" "),
+      },
+    })),
+  };
+}
 
 const absolute = (path: string) =>
   path === "/" ? `${siteConfig.url}/` : `${siteConfig.url}${path}`;

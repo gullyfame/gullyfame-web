@@ -2,7 +2,7 @@
  * Smooth scrolling for the whole site — no dependencies.
  *
  * 1. Link glide (every device): clicking a link to a section on the same page
- *    — the navbar, "Get the app", "View all categories", footer links — glides
+ *    — the navbar, "Get the app", footer links — glides
  *    there with an ease-in-out curve instead of jumping. Clicking a link to the
  *    current page with no #section (e.g. Home while on the home page) glides
  *    back to the top. Links to other pages are left to Next.js.

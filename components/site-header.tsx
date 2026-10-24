@@ -34,12 +34,10 @@ export function SiteHeader({ active = "/" }: { active?: string }) {
             <Link
               key={link.label}
               href={link.href}
+              data-nav=""
+              data-active={link.href === active ? "true" : "false"}
               aria-current={link.href === active ? "page" : undefined}
-              className={`rounded-full px-4.5 py-2.5 transition-colors ${
-                link.href === active
-                  ? "bg-orange text-ink"
-                  : "hover:bg-surface-2 text-white"
-              }`}
+              className="gf-nav-link rounded-full px-4.5 py-2.5"
             >
               {link.label}
             </Link>
@@ -76,7 +74,10 @@ export function SiteHeader({ active = "/" }: { active?: string }) {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className="font-display hover:bg-surface-2 rounded-xl px-4 py-3 text-[15px] font-medium text-white transition-colors"
+                  data-nav=""
+                  data-active={link.href === active ? "true" : "false"}
+                  aria-current={link.href === active ? "page" : undefined}
+                  className="gf-nav-link font-display rounded-xl px-4 py-3 text-[15px] font-medium"
                 >
                   {link.label}
                 </Link>

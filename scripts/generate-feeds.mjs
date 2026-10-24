@@ -34,14 +34,18 @@ const DATA_FILE = join(ROOT, "site.data.json");
 
 const data = JSON.parse(readFileSync(DATA_FILE, "utf8"));
 
-// Same order as lib/seo.ts: explicit domain, then Vercel's production address.
-const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "";
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || vercelUrl || data.url).replace(
-  /\/+$/,
-  "",
-);
+// Same order as lib/seo.ts: NEXT_PUBLIC_SITE_URL works on any host; the
+// others are the addresses common hosts provide when it is not set.
+const withProtocol = (host) =>
+  host ? (/^https?:\/\//.test(host) ? host : `https://${host}`) : "";
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  withProtocol(process.env.VERCEL_PROJECT_PRODUCTION_URL) || // Vercel
+  process.env.URL || // Netlify
+  process.env.RENDER_EXTERNAL_URL || // Render
+  withProtocol(process.env.RAILWAY_PUBLIC_DOMAIN) || // Railway
+  data.url
+).replace(/\/+$/, "");
 
 /*
  * Keep the footer's copyright year current without reading the clock while a

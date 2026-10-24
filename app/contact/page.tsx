@@ -10,32 +10,7 @@ import { pageMetadata, siteConfig } from "@/lib/seo";
 
 export const metadata = pageMetadata("/contact");
 
-const channels = [
-  {
-    label: "Support",
-    detail: "Trouble uploading, account issues, anything broken.",
-    email: siteConfig.contactEmail,
-    subject: "Support request",
-  },
-  {
-    label: "Report content",
-    detail: "Flag a clip or an account that breaks our guidelines.",
-    email: siteConfig.contactEmail,
-    subject: "Content report",
-  },
-  {
-    label: "Partnerships",
-    detail: "Brands, sponsors and battle collaborations.",
-    email: siteConfig.contactEmail,
-    subject: "Partnership enquiry",
-  },
-  {
-    label: "Press",
-    detail: "Interviews, media kit and company information.",
-    email: siteConfig.contactEmail,
-    subject: "Press enquiry",
-  },
-];
+const supportEmail = "admin@gullyfameindia.com";
 
 const socials = [
   { label: "Instagram", href: siteConfig.social.instagram, Icon: InstagramIcon },
@@ -47,31 +22,25 @@ export default function ContactPage() {
   return (
     <PageShell
       path="/contact"
-      intro="Pick the channel that fits and we'll come back to you. In-app reports are the fastest route for anything about a specific clip."
+      intro="Email our support team and we'll come back to you. In-app reports are the fastest route for anything about a specific clip."
     >
-      <div className="grid gap-5 md:grid-cols-2">
-        {channels.map((channel, i) => (
-          <a
-            key={channel.label}
-            href={`mailto:${channel.email}?subject=${encodeURIComponent(
-              `[${channel.subject}] `,
-            )}`}
-            data-reveal={i % 2 === 0 ? "left" : "right"}
-            className="bg-surface border-surface-2 gf-lift gf-reveal flex flex-col gap-2 rounded-3xl border-2 p-7"
-          >
-            <span className="font-display flex items-center gap-2 text-xl font-extrabold">
-              {channel.label}
-              <ArrowUpRightIcon className="text-orange h-4 w-4" />
-            </span>
-            <span className="text-muted text-[15px] leading-relaxed">
-              {channel.detail}
-            </span>
-            <span className="text-orange font-display mt-2 text-sm font-bold break-all">
-              {channel.email}
-            </span>
-          </a>
-        ))}
-      </div>
+      <a
+        href={`mailto:${supportEmail}?subject=${encodeURIComponent("[Support request] ")}`}
+        data-reveal="left"
+        className="bg-surface border-surface-2 gf-lift gf-reveal flex flex-col gap-2 rounded-3xl border-2 p-7"
+      >
+        <span className="font-display flex items-center gap-2 text-xl font-extrabold">
+          Support
+          <ArrowUpRightIcon className="text-orange h-4 w-4" />
+        </span>
+        <span className="text-muted text-[15px] leading-relaxed">
+          Trouble uploading, account issues, content reports, partnerships and
+          press.
+        </span>
+        <span className="text-orange font-display mt-2 text-sm font-bold break-all">
+          {supportEmail}
+        </span>
+      </a>
 
       <div className="mt-14 flex flex-wrap gap-12">
         <div className="gf-prose flex-1 basis-[460px]">
@@ -82,29 +51,21 @@ export default function ContactPage() {
             press mail can take a little longer.
           </p>
 
-          <h2>Registered address</h2>
+          <h2>Office address</h2>
           <p>
-            [Registered company name]
+            <strong>GULLY FAME INDIA PRIVATE LIMITED</strong>
             <br />
-            [Street address]
+            CIN: U62099DL2025PTC455455
             <br />
-            [City, State, PIN code]
+            House 55B, Ground Floor, Najafgarh Road,
+            <br />
+            (West Delhi) Delhi - 110015
             <br />
             India
+            <br />
+            Mobile: +91 98212 34605
           </p>
 
-          <h2>Grievance officer</h2>
-          <p>
-            In line with Indian intermediary rules, complaints about content on
-            Gully Fame India can be sent to our grievance officer:
-          </p>
-          <p>
-            <strong>[Officer name]</strong>
-            <br />
-            [Grievance email address]
-            <br />
-            [Contact number, if you publish one]
-          </p>
         </div>
 
         <div className="flex min-w-0 flex-1 basis-[320px] flex-col gap-6">

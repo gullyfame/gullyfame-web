@@ -1,12 +1,6 @@
-const ITEMS = [
-  "Music",
-  "Dance",
-  "Cooking",
-  "Comedy",
-  "Weekly battles",
-  "Win prizes",
-  "Earn fame",
-];
+import { categories } from "@/lib/content";
+
+const ITEMS = categories.map((category) => category.name);
 
 /**
  * Seamless infinite marquee.

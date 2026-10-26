@@ -12,6 +12,7 @@ export const organizationJsonLd = {
   email: siteConfig.contactEmail,
   sameAs: [
     siteConfig.social.instagram,
+    siteConfig.social.instagramIndia,
     siteConfig.social.youtube,
     siteConfig.social.x,
   ],

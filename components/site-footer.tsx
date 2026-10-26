@@ -10,7 +10,8 @@ import { footerColumns } from "@/lib/content";
 import { siteConfig } from "@/lib/seo";
 
 const socials = [
-  { label: "Instagram", href: siteConfig.social.instagram, Icon: InstagramIcon },
+  { label: "Instagram (@gullyfame)", href: siteConfig.social.instagram, Icon: InstagramIcon },
+  { label: "Instagram (@gullyfameindia)", href: siteConfig.social.instagramIndia, Icon: InstagramIcon },
   { label: "YouTube", href: siteConfig.social.youtube, Icon: YoutubeIcon },
   { label: "X", href: siteConfig.social.x, Icon: XIcon },
 ];

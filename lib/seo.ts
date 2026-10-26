@@ -96,7 +96,8 @@ export const siteConfig = {
   },
 
   social: {
-    instagram: "https://instagram.com/gullyfameindia",
+    instagram: "https://www.instagram.com/gullyfame/",
+    instagramIndia: "https://www.instagram.com/gullyfameindia/",
     youtube: "https://youtube.com/@gullyfameindia",
     x: "https://x.com/gullyfameindia",
   },

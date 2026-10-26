@@ -776,15 +776,20 @@ export default function TermsPage() {
 
         <h2 {...h(27)}>27. Contact and grievance redressal details</h2>
         <p>
-          <strong>Legal entity:</strong> GullyFame India
+          <strong>Legal entity:</strong> Gully Fame India Private Limited
           <br />
-          <strong>Registered office:</strong> [Registered office address]
+          <strong>CIN:</strong> U62099DL2025PTC455455
           <br />
-          <strong>Grievance office:</strong> [Grievance office address]
+          <strong>Registered office:</strong> House 55B, Ground Floor,
+          Najafgarh Road, (West Delhi) Delhi - 110015
           <br />
-          <strong>Email:</strong> [Grievance email]
+          <strong>Grievance office:</strong> House 55B, Ground Floor,
+          Najafgarh Road, (West Delhi) Delhi - 110015
           <br />
-          <strong>Phone:</strong> [Grievance phone number]
+          <strong>Email:</strong>{" "}
+          <a href="mailto:admin@gullyfame.com">admin@gullyfame.com</a>
+          <br />
+          <strong>Phone:</strong> <a href="tel:+919821234605">+91 98212 34605</a>
           <br />
           <strong>Response/acknowledgement:</strong> As prescribed by applicable
           law.

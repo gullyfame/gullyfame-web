@@ -10,7 +10,7 @@ import { pageMetadata, siteConfig } from "@/lib/seo";
 
 export const metadata = pageMetadata("/contact");
 
-const supportEmail = "admin@gullyfameindia.com";
+const supportEmail = "admin@gullyfame.com";
 
 const socials = [
   { label: "Instagram", href: siteConfig.social.instagram, Icon: InstagramIcon },

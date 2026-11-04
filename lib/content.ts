@@ -36,13 +36,6 @@ export const categories = [
   { name: "Comedy", note: "Open Mic", icon: "comedy", featured: false, description: "Relatable jokes, memes, POVs, roasts, and funny skits." },
   { name: "Food", note: "Foodie Mode", icon: "food", featured: false, description: "Street food, recipes, food reviews, and cooking challenges." },
   { name: "Fashion & Beauty", note: "Fit Check", icon: "fashion", featured: false, description: "Outfit transitions, streetwear, GRWM, makeup, and styling tips." },
-  { name: "Lifestyle", note: "Main Character", icon: "lifestyle", featured: false, description: "Daily life, college moments, friendships, routines, and mini-vlogs." },
-  { name: "Travel & Adventure", note: "Out of Office", icon: "travel", featured: false, description: "Hidden places, road trips, local experiences, and travel diaries." },
-  { name: "Gaming", note: "GG Zone", icon: "gaming", featured: false, description: "Gameplay highlights, funny fails, esports, and gaming challenges." },
-  { name: "Fitness & Sports", note: "Beast Mode", icon: "fitness", featured: false, description: "Gym routines, cricket, football, sports tricks, and fitness challenges." },
-  { name: "Tech & Gadgets", note: "Tech Drop", icon: "tech", featured: false, description: "AI tools, gadget reviews, app discoveries, and tech hacks." },
-  { name: "College & Campus", note: "Campus Chaos", icon: "college", featured: false, description: "College life, hostel stories, campus humor, and student culture." },
-  { name: "Art & Creativity", note: "Create Mode", icon: "art", featured: false, description: "Drawing, photography, DIY, editing tricks, and creative transformations." },
 ] as const;
 
 export const battles = [

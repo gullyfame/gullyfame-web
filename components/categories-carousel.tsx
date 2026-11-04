@@ -5,18 +5,11 @@ import type { IconType } from "react-icons";
 import {
   LuArrowLeft,
   LuArrowRight,
-  LuCpu,
-  LuDumbbell,
-  LuGamepad2,
-  LuGraduationCap,
   LuLaugh,
   LuMusic,
-  LuPalette,
   LuPersonStanding,
-  LuPlane,
   LuShirt,
   LuSoup,
-  LuSparkles,
 } from "react-icons/lu";
 import type { categories } from "@/lib/content";
 
@@ -28,13 +21,6 @@ const icons: Record<Category["icon"], IconType> = {
   comedy: LuLaugh,
   food: LuSoup,
   fashion: LuShirt,
-  lifestyle: LuSparkles,
-  travel: LuPlane,
-  gaming: LuGamepad2,
-  fitness: LuDumbbell,
-  tech: LuCpu,
-  college: LuGraduationCap,
-  art: LuPalette,
 };
 
 /** Pixels per second. Halved when the visitor's OS asks for reduced motion. */
